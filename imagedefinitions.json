@@ -1,0 +1,6 @@
+[
+    {
+        "name": "nodejs",
+        "imageUri": "084138576643.dkr.ecr.ap-south-1.amazonaws.com/code-build-nodeapp:latest"
+    }
+]

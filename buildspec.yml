@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+     install:
+        runtime-version:
+            nodejs: 12
+
+ 
+     build:
+         commands:
+             - echo Building and tagging Docker image
+             - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 084138576643.dkr.ecr.ap-south-1.amazonaws.com
+             - docker build -t code-build-nodeapp .
+             - docker tag code-build-nodeapp:latest 084138576643.dkr.ecr.ap-south-1.amazonaws.com/code-build-nodeapp:latest
+             
+     post_build:
+       commands:
+         - echo pushing to ECR
+         - docker push 084138576643.dkr.ecr.ap-south-1.amazonaws.com/code-build-nodeapp:latest
+         - printf '[{"name":"nodejs","imageUri":"084138576643.dkr.ecr.ap-south-1.amazonaws.com/code-build-nodeapp:latest"}]' > imagedefinitions.json
+             
+artifacts:
+  files:
+    - imagedefinitions.json         
+
+
+
